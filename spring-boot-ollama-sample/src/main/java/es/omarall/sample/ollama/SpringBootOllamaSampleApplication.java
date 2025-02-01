@@ -35,28 +35,30 @@ public class SpringBootOllamaSampleApplication {
     ApplicationRunner runner(OllamaService ollamaService, SimpleStringStreamResponseProcessor streamResponseProcessor) {
         return args -> {
 
-            // Embedding request
-            EmbeddingResponse embeddingResponse = ollamaService.embed(EmbeddingRequest.builder()
-                    .model(MODEL_NAME)
-                    .prompt("Dare to embed this text?")
-                    .build());
-            log.info("******* Ollama Embedding response: {}", embeddingResponse.getEmbedding());
+            // Embedding request（ollamaService.embed方法，是Ollama框架中的一个功能，用于将文本转换为数值向量，主要用于文本相似度计算、信息检索和聚类分析。OllamaService.embed通过将文本转换为向量，使得计算机能够理解和处理文本数据）
+//            EmbeddingResponse embeddingResponse = ollamaService.embed(EmbeddingRequest.builder()
+//                    .model(MODEL_NAME)
+//                    .prompt("Dare to embed this text?")
+//                    .build());
+//            log.info("1、******* Ollama Embedding response: {}", embeddingResponse.getEmbedding());
 
             log.info("******* (wait for it)");
 
+            System.out.println("###################################问答请求输出结果###################################");
             // Completion request
-            Arrays.asList("What is the capital city of Spain?",
-                            "Translate this text to Spanish: 'I love cookies!'")
+            Arrays.asList("中国的首都是哪里?",
+                            "把这句话翻译成中文: 'I love cookies!'")
                     .forEach(prompt -> {
                         CompletionResponse response = ollamaService.completion(CompletionRequest.builder()
                                 .model(MODEL_NAME).prompt(prompt).build());
-                        log.info("******* Ollama Completion response: {}", response.getResponse());
+                        log.info("2、******* Ollama Completion response: {}", response.getResponse());
                     });
 
+            System.out.println("###################################以流的形式输出结果###################################");
             // Streaming completion
             ollamaService.streamingCompletion(CompletionRequest.builder()
                     .model(MODEL_NAME)
-                    .prompt("What is the meaning of life?")
+                    .prompt("使用中文介绍一下天安门?")
                     .build(), streamResponseProcessor);
 
         };

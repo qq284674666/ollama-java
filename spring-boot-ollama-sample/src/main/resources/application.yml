@@ -3,7 +3,7 @@ spring:
     name: ollama-test
 
 application:
-  model-name: 'mistral:latest'
+  model-name: 'deepseek-r1:14b'
 
 # Ollama service configuration - ollama java client starter
 ollama:
